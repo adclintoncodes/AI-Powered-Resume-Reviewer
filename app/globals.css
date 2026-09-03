@@ -1,26 +1,37 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
+/* Font vars are injected by next/font in layout.tsx — keep this mapping */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@theme {
+  /* Surfaces — dark-first, layered so cards read above the page */
+  --color-surface-0: #08090d;
+  --color-surface-1: #0f1117;
+  --color-surface-2: #161923;
+  --color-border: #232733;
+
+  /* Text */
+  --color-fg: #f2f4f8;
+  --color-fg-muted: #9aa3b2;
+  --color-fg-subtle: #616b7d;
+
+  /* Single accent — one, deliberately */
+  --color-accent: #6d5efc;
+  --color-accent-soft: #8b7ffd;
+
+  /* Score scale — these carry meaning, don't reuse them decoratively */
+  --color-score-weak: #f0556d;
+  --color-score-partial: #f5a524;
+  --color-score-good: #3ec9a7;
+  --color-score-strong: #22c55e;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-surface-0);
+  color: var(--color-fg);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
