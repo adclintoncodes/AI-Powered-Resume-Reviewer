@@ -1,28 +1,50 @@
 @import "tailwindcss";
 
-/* Font vars are injected by next/font in layout.tsx — keep this mapping */
 @theme inline {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
+/* ---- LIGHT (default) ---- */
 @theme {
-  /* Surfaces — dark-first, layered so cards read above the page */
+  --color-surface-0: #f4f6f9;
+  --color-surface-1: #ffffff;
+  --color-surface-2: #eef1f6;
+  --color-border: #dde3ec;
+
+  --color-fg: #0d1526;
+  --color-fg-muted: #4a5568;
+  --color-fg-subtle: #8896ab;
+
+  --color-accent: #2f56f0;
+  --color-accent-soft: #5b7bf7;
+
+  --color-score-weak: #d02440;
+  --color-score-partial: #b0700a;
+  --color-score-good: #0d8f76;
+  --color-score-strong: #16a34a;
+}
+
+:root {
+  color-scheme: light;
+}
+
+/* ---- DARK (opt-in via .dark on <html>) ---- */
+:root.dark {
+  color-scheme: dark;
+
   --color-surface-0: #08090d;
   --color-surface-1: #0f1117;
   --color-surface-2: #161923;
   --color-border: #232733;
 
-  /* Text */
   --color-fg: #f2f4f8;
   --color-fg-muted: #9aa3b2;
   --color-fg-subtle: #616b7d;
 
-  /* Single accent — one, deliberately */
   --color-accent: #6d5efc;
   --color-accent-soft: #8b7ffd;
 
-  /* Score scale — these carry meaning, don't reuse them decoratively */
   --color-score-weak: #f0556d;
   --color-score-partial: #f5a524;
   --color-score-good: #3ec9a7;
@@ -30,7 +52,7 @@
 }
 
 body {
-  background: var(--color-surface-0);
+  background-color: var(--color-surface-0);
   color: var(--color-fg);
   font-family: var(--font-sans), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;

@@ -3,6 +3,10 @@
 import { useState } from 'react'
 import type { AnalysisReport, ResumeSource } from '@/lib/types'
 import { requestAnalysis } from '@/lib/analyze-client'
+import { ResumeUpload } from '@/components/ResumeUpload'
+import { JobDescription } from '@/components/JobDescription'
+import { Analyzing } from '@/components/Analyzing'
+import { Report } from '@/components/Report'
 
 type AppState =
   | { step: 'upload' }
@@ -42,7 +46,7 @@ export default function Home() {
   }
 
   return (
-    <main className="mx-auto flex min-h-screen w-full max-w-3xl flex-col gap-8 px-6 py-16">
+    <main className="mx-auto flex min-h-screen w-full max-w-3xl flex-col gap-8 px-6 pb-28 pt-16">
       <header>
         <h1 className="text-2xl font-semibold tracking-tight text-fg">
           AI Resume Reviewer
@@ -52,47 +56,21 @@ export default function Home() {
         </p>
       </header>
 
-      {/* Temporary scaffolding — F4–F7 replace each block with a real component */}
       <section className="rounded-xl border border-border bg-surface-1 p-6">
-        <p className="mb-4 font-mono text-xs uppercase tracking-widest text-accent">
-          step: {state.step}
-        </p>
-
-        {state.step === 'upload' && (
-          <button
-            onClick={() =>
-              handleResumeReady({ kind: 'pasted', text: 'FAKE RESUME TEXT' })
-            }
-            className="rounded-lg bg-accent px-4 py-2 text-sm font-medium text-white hover:bg-accent-soft"
-          >
-            Simulate resume upload
-          </button>
-        )}
+        {state.step === 'upload' && <ResumeUpload onReady={handleResumeReady} />}
 
         {state.step === 'describe' && (
-          <button
-            onClick={() => handleAnalyze('FAKE JOB DESCRIPTION')}
-            className="rounded-lg bg-accent px-4 py-2 text-sm font-medium text-white hover:bg-accent-soft"
-          >
-            Simulate analyze
-          </button>
+          <JobDescription
+            resume={state.resume}
+            onAnalyze={handleAnalyze}
+            onBack={handleReset}
+          />
         )}
 
-        {state.step === 'analyzing' && (
-          <p className="text-sm text-fg-muted">Analyzing…</p>
-        )}
+        {state.step === 'analyzing' && <Analyzing />}
 
         {state.step === 'report' && (
-          <div className="space-y-3">
-            <p className="text-4xl font-semibold text-score-good">
-              {state.report.overallScore}
-              <span className="text-base text-fg-subtle">/100</span>
-            </p>
-            <p className="text-sm text-fg-muted">{state.report.summary}</p>
-            <button onClick={handleReset} className="text-sm text-accent underline">
-              Start over
-            </button>
-          </div>
+          <Report report={state.report} onReset={handleReset} />
         )}
 
         {state.step === 'error' && (

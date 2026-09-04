@@ -27,3 +27,29 @@ export async function requestAnalysis(
 
   return res.json()
 }
+
+export async function extractResume(file: File): Promise<ResumeSource> {
+  if (USE_MOCK) {
+    await new Promise((resolve) => setTimeout(resolve, 900))
+    return {
+      kind: 'file',
+      filename: file.name,
+      text: `[mock extracted text from ${file.name}]`,
+    }
+  }
+
+  const form = new FormData()
+  form.append('file', file)
+
+  // Note: no Content-Type header. The browser must set it itself so it can
+  // include the multipart boundary. Setting it manually breaks the upload.
+  const res = await fetch('/api/extract', { method: 'POST', body: form })
+
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({}))
+    throw new Error(body.error ?? `Could not read that file (${res.status})`)
+  }
+
+  const { text } = await res.json()
+  return { kind: 'file', filename: file.name, text }
+}
