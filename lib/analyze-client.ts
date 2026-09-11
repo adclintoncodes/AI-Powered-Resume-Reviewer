@@ -1,14 +1,18 @@
 import type { AnalysisReport, ResumeSource } from './types'
 import { MOCK_REPORT } from './mock'
 
-/** Flip to false once /api/analyze exists. */
-const USE_MOCK = true
+/**
+ * One flag per endpoint, so the backend can go live a piece at a time.
+ * /api/extract is real (B2). /api/analyze doesn't exist yet (B5).
+ */
+const MOCK_EXTRACT = false
+const MOCK_ANALYZE = true
 
 export async function requestAnalysis(
   resume: ResumeSource,
   jobDescription: string,
 ): Promise<AnalysisReport> {
-  if (USE_MOCK) {
+  if (MOCK_ANALYZE) {
     // Deliberate delay: a loading state you can't see is a loading state you won't build.
     await new Promise((resolve) => setTimeout(resolve, 1800))
     return MOCK_REPORT
@@ -29,7 +33,7 @@ export async function requestAnalysis(
 }
 
 export async function extractResume(file: File): Promise<ResumeSource> {
-  if (USE_MOCK) {
+  if (MOCK_EXTRACT) {
     await new Promise((resolve) => setTimeout(resolve, 900))
     return {
       kind: 'file',

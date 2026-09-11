@@ -31,6 +31,9 @@ export function JobDescription({
         <div className="min-w-0">
           <p className="text-xs uppercase tracking-wide text-fg-subtle">Resume</p>
           <p className="truncate text-sm text-fg">{resumeLabel}</p>
+          <p className="mt-0.5 text-xs text-fg-subtle">
+            {resume.text.length.toLocaleString()} characters read
+          </p>
         </div>
         <button
           onClick={onBack}
